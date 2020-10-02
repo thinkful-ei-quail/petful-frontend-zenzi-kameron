@@ -14,10 +14,7 @@ export default class Home extends Component {
         const {history} = this.props
         const name = e.target.name.value;
         userService.postUser(name)
-        // this.context.setUser(name)
-        // .then(res => {
-        //     this.context.setUser(res)
-        // })
+        this.context.setUser(name)
         history.push('./adopt')
     }
 

@@ -4,24 +4,34 @@ import './App.css'
 import Home from '../Home'
 import Adopt from '../Adopt'
 import Context from '../Context'
+import userService from '../services/userService'
 
 export default class App extends Component {
   state = {
-    allWaiting: [],
-    currentUser: null,
+    user: null,
     isWaiting: false,
+    users: []
   }
 
   setUser = (user) => {
-    this.setState({currentUser: user, isWaiting: true})
+    this.setState({user: user, isWaiting: true})
+  }
+
+  componentDidMount() {
+    userService.getUsers()
+    .then(users => {
+        this.setState({users})
+    })
   }
 
 
   render() {
     const value = {
       setUser: this.setUser,
-      currentUser: this.state.currentUser,
-      isWaiting: this.state.isWaiting
+      user: this.state.user,
+      isWaiting: this.state.isWaiting,
+      currentUser: this.state.users[0],
+      users: this.state.users
     }
     return (
       <Context.Provider value={value}>

@@ -7,9 +7,13 @@ const CatServices = {
 
     getAllCats() {
         return fetch(`${config.API_ENDPOINT}/pets/cats`)
-        .then(res => 
-            (!res.ok) ? res.json().then(e => e.Promise.reject(e)) : res.json()    
-        )
+        .then(res => {
+            if(!res.ok){
+                res.json().then(e => e.Promise.reject(e))
+            } else {
+                return res.json()
+            }
+        })
     },
 
     getNextCat() {

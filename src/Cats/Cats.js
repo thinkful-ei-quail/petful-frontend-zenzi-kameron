@@ -1,28 +1,24 @@
 import React, {Component} from 'react'
 import CatServices from '../services/catServices';
+import Context from '../Context'
 
 
 export default class Cats extends Component {
     state = {
         cats: [],
-        currentCat: {
-            imageURL:'https://assets3.thrillist.com/v1/image/2622128/size/tmg-slideshow_l.jpg', 
-            imageDescription: 'Orange bengal cat with black stripes lounging on concrete.',
-            name: 'Fluffy',
-            sex: 'Female',
-            age: 2,
-            breed: 'Bengal',
-            story: 'Thrown on the street'
-          },
-          adopted: false
+        adopted: false,
+        loaded: false
     }
 
-    // componentDidMount(){
-    //     CatServices.getAllCats()
-    //     .then(cats => {
-    //         this.setState({cats})
-    //     });
-    // }
+    static contextType = Context;
+
+    componentDidMount(){
+        CatServices.getAllCats()
+        .then(cats => {
+            this.setState({cats})
+        })
+        .then(() => this.setState({loaded: true}))
+    }
 
     getCat() {
         CatServices.getNextCat()
@@ -33,18 +29,22 @@ export default class Cats extends Component {
 
     handleClick = (e) => {
         this.setState({adopted: true})
+        CatServices.deleteCurrent();
     }
 
     render(){
-        if(this.state.adopted) {return <h2>You've adopted {this.state.currentCat.name}!</h2>}
+        if(!this.state.loaded) {return <p>Loading...</p>}
+        if(this.state.adopted) {return <h2>You've adopted {this.state.cats[0].name}!</h2>}
         return(
             <div className='cats-all'>
-                <h2>{this.state.currentCat.name}</h2>
-                <p>{this.state.currentCat.sex}, {this.state.currentCat.age} years old</p>
-                <img src={this.state.currentCat.imageURL} alt={this.state.currentCat.imageDescription} /><br/>
-                <p>Breed: {this.state.currentCat.breed}</p>
-                <p>{this.state.currentCat.story}</p>
-                <button type="button" onClick={this.handleClick}>Adopt {this.state.currentCat.name}!</button>
+                <h2>{this.state.cats[0].name}</h2>
+                <p>{this.state.cats[0].gender}, {this.state.cats[0].age} years old</p>
+                <img src={this.state.cats[0].imageURL} alt={this.state.cats[0].imageDescription} /><br/>
+                <p>Breed: {this.state.cats[0].breed}</p>
+                <p>{this.state.cats[0].story}</p>
+                {this.context.currentUser === this.context.user
+                    && <button type="button" onClick={this.handleClick}>Adopt {this.state.cats[0].name}!</button>
+                }
             </div>
         )
     }
