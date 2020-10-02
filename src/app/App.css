@@ -1,0 +1,17 @@
+.center {
+    text-align: center;
+}
+
+.petSection {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.pet {
+    flex-direction: row;
+}
+
+img {
+    height: 300px;
+    max-width: 400px;
+}
