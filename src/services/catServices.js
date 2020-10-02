@@ -6,16 +6,27 @@ import config from '../config';
 const CatServices = {
 
     getAllCats() {
-        return fetch(`${config.API_ENDPOINT}/cats`)
+        return fetch(`${config.API_ENDPOINT}/pets/cats`)
         .then(res => 
             (!res.ok) ? res.json().then(e => e.Promise.reject(e)) : res.json()    
         )
     },
 
     getNextCat() {
-        return fetch(`${config.API_ENDPOINT}/nextCat`)
+        return fetch(`${config.API_ENDPOINT}/pets/cat`)
         .then(res =>
             (!res.ok) ? res.json().then(e => e.Promise.reject(e)) : res.json()
+        )
+    },
+
+    deleteCurrent() {
+        return fetch(`${config.API_ENDPOINT}/pets/cat`, {
+            method: 'DELETE'
+        })
+        .then(res => 
+            (!res.ok)
+            ? res.json().then(e => e.Promise.reject(e))
+            : null
         )
     }
 
