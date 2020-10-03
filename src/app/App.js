@@ -17,28 +17,34 @@ export default class App extends Component {
 
   setUser = (user) => {
     this.setState({ isLoading: true });
-    const updatedUsers = this.state.users.push(user);
     this.setState({
       user: user,
       isWaiting: true,
-      users: updatedUsers,
+      users: [...this.state.users, user],
       isLoading: false,
     });
   };
 
+  loadUsers = () => {
+    userService.getUsers().then((users) => {
+      this.setState({ users });
+    });
+  }
+
   removeUser = () => {
-    if (this.state.users.length > 0) {
-      this.setState({ count: this.state.count + 1 });
+    if(this.state.users[0] !== this.state.user){
       const updatedUsers = this.state.users.slice(1, this.state.users.length);
       this.setState({ users: updatedUsers });
     }
   };
 
+  addRandom = (user) => {
+    userService.postUser(user);
+    this.loadUsers()
+  }
+
   componentDidMount() {
-    userService.getUsers().then((users) => {
-      console.log(users);
-      this.setState({ users });
-    });
+    this.loadUsers()
   }
 
   render() {
@@ -50,6 +56,8 @@ export default class App extends Component {
       currentUser: this.state.users[0],
       users: this.state.users,
       isLoading: this.state.isLoading,
+      loadUsers: this.loadUsers,
+      addRandom: this.addRandom,
     };
     return (
       <Context.Provider value={value}>
