@@ -5,34 +5,36 @@ import Dogs from "./Dogs/Dogs";
 import userService from "./services/userService";
 
 export default class Home extends Component {
-
   static contextType = Context;
-  
+
   componentDidMount() {
-    this.context.loadUsers()
-    if(this.context.user !== this.context.users[0]){
-        this.interval = setInterval(() => {
+    this.context.loadUsers();
+    if (this.context.user !== this.context.users[0]) {
+      this.interval = setInterval(() => {
         this.shuffleUser();
-        this.context.addRandom('random')
-        }, 3000);
+        this.context.addRandom("random");
+      }, 3000);
     }
   }
+  componentWillUnmount() {
+    clearInterval(this.context.interval);
+  }
 
+  //need to clear interval from set interval with componenet did unmount
   shuffleUser = () => {
     if (this.context.users.length > 1) {
-        userService.deleteCurrent()
-        .then(this.context.removeUser());
+      userService.deleteCurrent().then(this.context.removeUser());
     }
   };
 
-//   addToQueue = () => {
-//     while(this.context.users.length < 5){
-//         setInterval(() => {
-//             userService.postUser('random')
-//             this.context.loadUsers()
-//         }, 5000);
-//     }
-//   };
+  //   addToQueue = () => {
+  //     while(this.context.users.length < 5){
+  //         setInterval(() => {
+  //             userService.postUser('random')
+  //             this.context.loadUsers()
+  //         }, 5000);
+  //     }
+  //   };
 
   render() {
     if (this.context.isLoading) {
