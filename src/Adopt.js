@@ -47,6 +47,7 @@ export default class Home extends Component {
         currentAdoptedPet: this.state.currentCat,
       },
       function () {
+        if (!this.state.currentCat) return;
         catService.deleteCurrent().then(() => {
           setTimeout(() => {
             this.getNextCatPage();
@@ -61,6 +62,7 @@ export default class Home extends Component {
         currentAdoptedPet: this.state.currentDog,
       },
       function () {
+        if (!this.state.currentDog) return;
         dogService.deleteCurrent().then(() => {
           setTimeout(() => {
             this.getNextDogPage();
@@ -77,6 +79,7 @@ export default class Home extends Component {
         removeStatus: true,
       },
       function () {
+        if (!this.state.currentCat) return;
         catService.deleteCurrent().then(() => {
           setTimeout(() => {
             console.log("redirect to the home page");
@@ -93,6 +96,7 @@ export default class Home extends Component {
         removeStatus: true,
       },
       function () {
+        if (!this.state.currentDog) return;
         dogService.deleteCurrent().then(() => {
           setTimeout(() => {
             console.log("redirect to the home page");
@@ -108,6 +112,7 @@ export default class Home extends Component {
         bothPetAdoptionStatus: true,
       },
       function () {
+        if (!this.state.currentDog || !this.state.currentCat) return;
         dogService.deleteCurrent().then(() => {
           catService.deleteCurrent().then(() => {
             setTimeout(() => {
@@ -162,7 +167,7 @@ export default class Home extends Component {
   getNextCat() {
     catService.getNextCat().then((currentCat) => {
       this.setState({
-        currentCat: currentCat,
+        currentCat,
       });
     });
   }
@@ -170,7 +175,7 @@ export default class Home extends Component {
   getNextDog() {
     dogService.getNextDog().then((currentDog) => {
       this.setState({
-        currentDog: currentDog,
+        currentDog,
       });
     });
   }

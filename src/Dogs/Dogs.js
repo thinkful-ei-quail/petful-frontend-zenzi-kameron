@@ -24,8 +24,8 @@ export default class Dogs extends Component {
   };
 
   render() {
-    if (this.context.currentDog == null) {
-      return <p>Loading...</p>;
+    if (this.context.currentDog === null) {
+      return <p>No dogs available</p>;
     }
     if (this.state.adopted) {
       return <h2>You've adopted {this.context.currentDog.name}!</h2>;
@@ -44,12 +44,11 @@ export default class Dogs extends Component {
         <br />
         <p>Breed: {this.context.currentDog.breed}</p>
         <p>{this.context.currentDog.story}</p>
-        {this.context.user === this.context.currentUser &&
-          !this.state.adopted && (
-            <button type="button" onClick={this.handleClick}>
-              Adopt {this.context.currentDog.name}!
-            </button>
-          )}
+        {this.context.user === this.context.currentUser && !this.state.adopted && (
+          <button type="button" onClick={this.handleClick}>
+            Adopt {this.context.currentDog.name}!
+          </button>
+        )}
       </div>
     );
   }

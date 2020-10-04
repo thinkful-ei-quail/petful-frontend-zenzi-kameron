@@ -39,8 +39,8 @@ export default class Cats extends Component {
   };
 
   render() {
-    if (this.context.currentCat == null) {
-      return <p>Loading...</p>;
+    if (this.context.currentCat === null) {
+      return <p>No more cats available</p>;
     }
     if (this.state.adopted) {
       return <h2>You've adopted {this.context.currentCat.name}!</h2>;
