@@ -29,36 +29,47 @@ export default class App extends Component {
     userService.getUsers().then((users) => {
       this.setState({ users });
     });
-  }
+  };
 
   removeUser = () => {
-    if(this.state.users[0] !== this.state.user){
+    if (this.state.users[0] !== this.state.user) {
+      //remove the first user because that came first and will go out first
       const updatedUsers = this.state.users.slice(1, this.state.users.length);
       this.setState({ users: updatedUsers });
     }
   };
 
   addRandom = (user) => {
-    userService.postUser(user);
-    this.loadUsers()
-  }
+    userService.postUser(user).then(this.loadUsers());
+  };
 
   componentDidMount() {
-    this.loadUsers()
+    this.loadUsers();
   }
 
   render() {
-    const value = {
+    let value = {
       setUser: this.setUser,
       removeUser: this.removeUser,
       user: this.state.user,
       isWaiting: this.state.isWaiting,
-      currentUser: this.state.users[0],
+      currentUser: this.state.users[0], //first user in will be first user out
       users: this.state.users,
       isLoading: this.state.isLoading,
       loadUsers: this.loadUsers,
       addRandom: this.addRandom,
+      //add as many random names as many people you need to be
+      //after yourself
+      newRandomUsers: [
+        "Random User 1",
+        "Random User 2",
+        "Random User 3",
+        "Random User 4",
+        "Random User 5",
+      ],
+      stopTime: 5000, //time between users
     };
+
     return (
       <Context.Provider value={value}>
         <div className="center">
