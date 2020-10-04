@@ -6,7 +6,7 @@ const userService = {
         return fetch(`${config.API_ENDPOINT}/people`)
             .then(res => {
                 if(!res.ok){
-                    res.json().then(e => e.Promise.reject(e))
+                    return res.json().then(e => {throw e})
                 } else {
                     return res.json()
             }
@@ -20,23 +20,18 @@ const userService = {
             headers: {'content-type': 'application/json'},
             body: JSON.stringify(user)
         })
-        // .then(res => {
-        //     if(!res.ok){ 
-        //         res.json().then(e => e.Promise.reject(e))
-        //     } else { 
-        //         res.json()
-        //     }
-        // })
     },
 
     deleteCurrent() {
         return fetch(`${config.API_ENDPOINT}/people`, {
             method: 'DELETE'
         })
-        .then(res => 
-            (!res.ok)
-            ? res.json().then(e => e.Promise.reject(e))
-            : null
+        .then(res => {
+            if (!res.ok){
+                return res.json().then(e => {throw e})
+            }
+            else { return }
+        }
         )
     }
 }

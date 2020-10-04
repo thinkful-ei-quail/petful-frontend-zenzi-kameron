@@ -9,30 +9,31 @@ import userService from "../services/userService";
 export default class App extends Component {
   state = {
     user: null,
-    isWaiting: false,
     users: [],
-    count: 0,
     isLoading: false,
   };
 
   setUser = (user) => {
-    this.setState({ isLoading: true });
-    this.setState({
-      user: user,
-      isWaiting: true,
-      users: [...this.state.users, user],
-      isLoading: false,
-    });
+    if(user){
+      this.setState({ isLoading: true });
+      this.setState({
+        user,
+        users: [...this.state.users, user],
+        isLoading: false,
+      });
+    }
   };
 
   loadUsers = () => {
     userService.getUsers().then((users) => {
+      if(users){
       this.setState({ users });
+      }
     });
   };
 
   removeUser = () => {
-    if (this.state.users[0] !== this.state.user) {
+    if (this.state.users) {
       //remove the first user because that came first and will go out first
       const updatedUsers = this.state.users.slice(1, this.state.users.length);
       this.setState({ users: updatedUsers });
@@ -52,7 +53,6 @@ export default class App extends Component {
       setUser: this.setUser,
       removeUser: this.removeUser,
       user: this.state.user,
-      isWaiting: this.state.isWaiting,
       currentUser: this.state.users[0], //first user in will be first user out
       users: this.state.users,
       isLoading: this.state.isLoading,

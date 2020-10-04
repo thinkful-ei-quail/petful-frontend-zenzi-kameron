@@ -9,7 +9,7 @@ const CatServices = {
         return fetch(`${config.API_ENDPOINT}/pets/cats`)
         .then(res => {
             if(!res.ok){
-                res.json().then(e => e.Promise.reject(e))
+                return null
             } else {
                 return res.json()
             }
@@ -18,20 +18,30 @@ const CatServices = {
 
     getNextCat() {
         return fetch(`${config.API_ENDPOINT}/pets/cat`)
-        .then(res =>
-            (!res.ok) ? res.json().then(e => e.Promise.reject(e)) : res.json()
+        .then(res => {
+            if(!res.ok){
+                return null
+            } else {
+                return res.json()
+            }
+        }
         )
+        .catch()
     },
 
     deleteCurrent() {
         return fetch(`${config.API_ENDPOINT}/pets/cat`, {
             method: 'DELETE'
         })
-        .then(res => 
-            (!res.ok)
-            ? res.json().then(e => e.Promise.reject(e))
-            : null
+        .then(res => {
+            if(!res.ok){
+                return null
+            } else {
+                return res.json()
+            }
+        }
         )
+        .catch()
     }
 
 }

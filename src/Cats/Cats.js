@@ -35,12 +35,13 @@ export default class Cats extends Component {
 
   handleClick = (e) => {
     this.setState({ adopted: true });
-    this.context.adoptCatAction();
+    this.context.adoptCatAction()
+    .then(this.setState({ adopted:false }))
   };
 
   render() {
     if (this.context.currentCat == null) {
-      return <p>Loading...</p>;
+      return <h2>No more cats available</h2>;
     }
     if (this.state.adopted) {
       return <h2>You've adopted {this.context.currentCat.name}!</h2>;
