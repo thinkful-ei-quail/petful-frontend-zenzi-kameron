@@ -23,25 +23,20 @@ export default class Home extends Component {
       <div>
         <h2>FIFO Adoption Agency</h2>
 
-        <h4>How FIFO works</h4>
+        <h3>How FIFO works</h3>
 
-        <p>
+        <p className="main-desc">
           FIFO Adoption Agency places deserving pets with adoptive families that
           need them. Each cat or dog is adopted in the order in which it was
           surrendered to our care. this assures that no pet's stay is too long!
         </p>
 
-        <ol>
+        <ol className="steps">
           <li>Join our list of adoptive pet parents</li>
           <li>You'll receive confirmation of entry to our waiting list</li>
-          <li>Hold tight! Our waiting list updates automatically!</li>
-          <li>
-            You can see all of our fantastic animals until it's time to adopt!
-          </li>
-          <li>
-            When it's your turn to adopt, you may choose the dog or cat
-            currently available!
-          </li>
+          <li>Hold tight! Our waiting list updates automatically.</li>
+          <li>You can see all of our fantastic animals until it's time to adopt!</li>
+          <li>When it's your turn to adopt, you may choose the dog or cat currently available.</li>
         </ol>
 
         <form onSubmit={this.handleSubmit}>
@@ -49,6 +44,11 @@ export default class Home extends Component {
           <input type="text" name="name" id="name"></input>
           <button type="submit">Adopt a Pet</button>
         </form>
+
+        <h4>Users Currently Waiting:</h4>
+        <ol>
+          {this.context.users.map((user, i) => <li key={`${user}${i}`}>{user}</li>)}
+        </ol>
       </div>
     );
   }
