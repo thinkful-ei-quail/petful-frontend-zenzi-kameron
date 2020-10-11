@@ -1,6 +1,9 @@
+import "./Home.css"
 import React, { Component } from "react";
 import userService from "./services/userService";
 import Context from "./Context";
+// import catServices from "./services/catServices";
+// import dogServices from "./services/dogServices";
 
 export default class Home extends Component {
   static defaultProps = {
