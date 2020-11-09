@@ -31,13 +31,14 @@ const userService = {
 
     deleteCurrent() {
         return fetch(`${config.API_ENDPOINT}/people`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {'content-type': 'application/json'}
         })
-        .then(res => 
-            (!res.ok)
-            ? res.json().then(e => e.Promise.reject(e))
-            : null
-        )
+        .then(res => {
+            if(!res) {
+                throw new Error('Something went wrong')
+            }
+        })
     }
 }
 

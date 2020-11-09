@@ -33,7 +33,6 @@ export default class App extends Component {
 
   removeUser = () => {
     if (this.state.users[0] !== this.state.user) {
-      //remove the first user because that came first and will go out first
       const updatedUsers = this.state.users.slice(1, this.state.users.length);
       this.setState({ users: updatedUsers });
     }

@@ -14,3 +14,14 @@ li, h4 {
 form {
     margin-top: 60px;
 }
+
+.homePets {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style-type: none;
+}
+
+.homePet {
+    height: 100px;
+}

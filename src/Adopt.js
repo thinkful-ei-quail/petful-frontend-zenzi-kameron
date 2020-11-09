@@ -8,7 +8,6 @@ import dogService from "./services/dogServices";
 
 export default class Home extends Component {
   state = {
-    //cats: [],
     currentCat: null,
     currentDog: null,
     currentAdoptedPet: null,
@@ -73,22 +72,27 @@ export default class Home extends Component {
   };
 
   adoptCatAction = () => {
-    this.setState(
-      {
+    this.setState({
         currentAdoptedPet: this.state.currentCat,
         removeStatus: true,
-      },
-      function () {
-        if (!this.state.currentCat) return;
+      },() => {
+        if (!this.state.currentCat) {
+          return
+        };
         catService.deleteCurrent().then(() => {
           setTimeout(() => {
-            console.log("redirect to the home page");
             this.props.history.push("/");
           }, 2000);
+        })
+        .then(() => {
+          userService.deleteCurrent();
+          this.context.setUser(null);
+          this.context.removeUser();
         });
       }
     );
   };
+
   adoptDogAction = () => {
     this.setState(
       {
@@ -102,6 +106,11 @@ export default class Home extends Component {
             console.log("redirect to the home page");
             this.props.history.push("/");
           }, 2000);
+        })
+        .then(() => {
+          userService.deleteCurrent();
+          this.context.setUser(null);
+          this.context.removeUser();
         });
       }
     );
@@ -149,11 +158,8 @@ export default class Home extends Component {
     return Math.floor(Math.random() * Math.floor(max)); //60
   };
 
-  //need to clear interval from set interval with componenet did unmount
   shuffleUser = () => {
     if (this.context.users.length) {
-      //it means that you are the only user left in the queue
-      //so you are in front of the line so you start adding users
       userService.deleteCurrent().then(() => {
         if (this.getRandomInt(100) < 50) {
           this.adoptCat();
@@ -218,14 +224,6 @@ export default class Home extends Component {
       </button>
     );
   };
-  //   addToQueue = () => {
-  //     while(this.context.users.length < 5){
-  //         setInterval(() => {
-  //             userService.postUser('random')
-  //             this.context.loadUsers()
-  //         }, 5000);
-  //     }
-  //   };
 
   render() {
     let value = {
@@ -243,9 +241,6 @@ export default class Home extends Component {
         <Context.Provider value={value}>
           <div>
             <h2>{this.getCurrentUserStatus()}</h2>
-            {/* The Cats and Dogs modules should cooperate with the displayQueue function; 
-              whenever an imaginary user is deleted from the queue, a cat and/or dog should also be deleted.
-              They should also display "Adopted!" or something to that effect whenever they are deleted. */}
             {!this.state.bothPetAdoptionStatus && <Cats className="pet" />}
             {!this.state.bothPetAdoptionStatus && <Dogs className="pet" />}
             {this.getAdoptBothButton()}
