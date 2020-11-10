@@ -64,10 +64,6 @@ export default class Home extends Component {
           <button type="submit">Adopt a Pet</button>
         </form>
 
-        <h4>Users Currently Waiting:</h4>
-        <ol>
-          {this.context.users.map((user, i) => <li key={`${user}${i}`}>{user}</li>)}
-        </ol>
         <h4>Cats Currently Available:</h4>
         <ul className="homePets">
           {this.state.currentPets.cats && this.state.currentPets.cats.map((cat, i) => <li key={`${cat.name}${i}`}><img src={cat.imageURL} alt={cat.description} className="homePet" /></li>)}

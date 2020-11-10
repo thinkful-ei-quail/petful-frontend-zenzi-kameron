@@ -85,9 +85,11 @@ export default class Home extends Component {
           }, 2000);
         })
         .then(() => {
-          userService.deleteCurrent();
-          this.context.setUser(null);
-          this.context.removeUser();
+          setTimeout(() => {
+            userService.deleteCurrent();
+            this.context.setUser(null);
+            this.context.removeUser();
+          }, 2000)
         });
       }
     );
@@ -103,14 +105,15 @@ export default class Home extends Component {
         if (!this.state.currentDog) return;
         dogService.deleteCurrent().then(() => {
           setTimeout(() => {
-            console.log("redirect to the home page");
             this.props.history.push("/");
           }, 2000);
         })
         .then(() => {
-          userService.deleteCurrent();
-          this.context.setUser(null);
-          this.context.removeUser();
+          setTimeout(() => {
+            userService.deleteCurrent();
+            this.context.setUser(null);
+            this.context.removeUser();
+          }, 2000)
         });
       }
     );
@@ -125,10 +128,16 @@ export default class Home extends Component {
         dogService.deleteCurrent().then(() => {
           catService.deleteCurrent().then(() => {
             setTimeout(() => {
-              console.log("redirect to the home page");
               this.props.history.push("/");
             }, 2000);
           });
+        })
+        .then(() => {
+          setTimeout(() => {
+            userService.deleteCurrent();
+            this.context.setUser(null);
+            this.context.removeUser();
+          }, 2000)
         });
       }
     );
@@ -244,6 +253,10 @@ export default class Home extends Component {
             {!this.state.bothPetAdoptionStatus && <Cats className="pet" />}
             {!this.state.bothPetAdoptionStatus && <Dogs className="pet" />}
             {this.getAdoptBothButton()}
+            <h4>Users Currently Waiting:</h4>
+            <ol>
+              {this.context.users.map((user, i) => <li key={`${user}${i}`}>{user}</li>)}
+            </ol>
           </div>
         </Context.Provider>
       );
